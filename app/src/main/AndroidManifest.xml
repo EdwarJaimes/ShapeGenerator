@@ -22,6 +22,11 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".DesignActivity"
+            android:exported="true">
+        </activity>
+
 
     </application>
 
