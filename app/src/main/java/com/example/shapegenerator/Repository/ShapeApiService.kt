@@ -10,7 +10,6 @@ interface ShapeApiService {
     suspend fun getShapes(): List<Shape>
 }
 
-// Configuración de Retrofit para realizar las solicitudes
 object RetrofitInstance {
     private const val BASE_URL = "https://gca.traces.com.co/pruebamovil/api/"
 

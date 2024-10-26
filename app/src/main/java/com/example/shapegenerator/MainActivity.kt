@@ -12,7 +12,6 @@ import com.example.shapegenerator.Repository.ShapeRepository
 import com.example.shapegenerator.ViewModel.ShapeViewModel
 import com.example.shapegenerator.ViewModel.ShapeViewModelFactory
 import com.example.shapegenerator.databinding.ActivityMainBinding
-import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : AppCompatActivity() {
 
