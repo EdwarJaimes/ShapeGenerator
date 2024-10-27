@@ -42,9 +42,5 @@ class MainActivity : AppCompatActivity() {
             SelectionDialogFragment.newInstance().show(supportFragmentManager, "selectionDialog")
         }
 
-
-
-
-
     }
 }

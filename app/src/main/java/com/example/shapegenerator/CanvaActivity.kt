@@ -1,12 +1,14 @@
 package com.example.shapegenerator
 
 import android.content.Intent
+import android.graphics.PointF
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.recycler.PolygonCanvas
 
 class CanvaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,14 +23,9 @@ class CanvaActivity : AppCompatActivity() {
 
         val polygonCanvas = findViewById<PolygonCanvas>(R.id.polygonCanvas)
 
-        var  escala: String = intent.getStringExtra("seekBarValue1").toString()
-        var  lados: String = intent.getStringExtra("seekBarValue2").toString()
-
-        //polygonCanvas.setSides(lados.toInt())
-        //polygonCanvas.setScale(0.5f)
-
-
-
-        Toast.makeText(this, "Lados: " + lados + " Escala: " + escala, Toast.LENGTH_SHORT).show()
+        var scale: Float = intent.getIntExtra("seekBarValue1", 200).toFloat()
+        var lados: Int = intent.getIntExtra("seekBarValue2", 3)
+        //enviar datos de ceracion de poligono.
+        polygonCanvas.setPolygonSides(lados, scale)
     }
 }

@@ -48,12 +48,12 @@ class SelectionDialogFragment : DialogFragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) { }
         })
 
-        builder.setTitle("Selection Dialog")
+        builder.setTitle("Diseñar poligono personalizado")
             .setView(dialogView)
-            .setPositiveButton("OK") { dialog, _ ->
+            .setPositiveButton("Continuar") { dialog, _ ->
                 val intent = Intent(requireContext(), CanvaActivity::class.java)
-                intent.putExtra("seekBarValue1", scale.toString())
-                intent.putExtra("seekBarValue2", sides.toString())
+                intent.putExtra("seekBarValue1", scale)
+                intent.putExtra("seekBarValue2", sides)
                 startActivity(intent)
                 dialog.dismiss() // Opcional: Cierra el diálogo después de la acción
             }
@@ -63,8 +63,6 @@ class SelectionDialogFragment : DialogFragment() {
         dialog.setCanceledOnTouchOutside(false)
         return dialog
     }
-
-
 
     companion object {
         fun newInstance(): SelectionDialogFragment {

@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".CanvaActivity">
 
-    <com.example.shapegenerator.PolygonCanvas
+    <com.example.recycler.PolygonCanvas
         android:id="@+id/polygonCanvas"
-        android:layout_width="328dp"
-        android:layout_height="609dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
