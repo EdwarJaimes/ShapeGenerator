@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Primer SeekBar y su valor -->
+    <TextView
+        android:id="@+id/seekbar_value_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="N de caras :" />
+
+    <SeekBar
+        android:id="@+id/seek_bar_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10" />
+
+    <!-- Segundo SeekBar y su valor -->
+    <TextView
+        android:id="@+id/seekbar_value_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escala :" />
+
+    <SeekBar
+        android:id="@+id/seek_bar_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:min="50"/>
+</LinearLayout>

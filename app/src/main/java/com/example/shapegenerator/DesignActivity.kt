@@ -11,17 +11,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shapegenerator.Model.ShapesDatabaseHelper
 import com.example.shapegenerator.Repository.RetrofitInstance
 import com.example.shapegenerator.Repository.ShapeRepository
+import com.example.shapegenerator.View.SelectionDialogFragment
 import com.example.shapegenerator.View.ShapeAdapter
 import com.example.shapegenerator.ViewModel.ShapeViewModel
 import com.example.shapegenerator.ViewModel.ShapeViewModelFactory
+import com.example.shapegenerator.databinding.ActivityDesignBinding
 
 class DesignActivity : AppCompatActivity() {
 
     private lateinit var shapeAdapter: ShapeAdapter
+    private  lateinit var binding: ActivityDesignBinding
 
     private val shapeViewModel: ShapeViewModel by viewModels {
         ShapeViewModelFactory(ShapeRepository(RetrofitInstance.api))
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,6 +34,12 @@ class DesignActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        binding = ActivityDesignBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnDesign.setOnClickListener {
+            SelectionDialogFragment.newInstance().show(supportFragmentManager, "selectionDialog")
         }
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
