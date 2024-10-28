@@ -103,11 +103,13 @@ class PolygonCanvas @JvmOverloads constructor(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 draggingPoint = getTouchedPoint(event.x, event.y)
+                Toast.makeText(context, "Click en :"+ draggingPoint, Toast.LENGTH_SHORT).show()
             }
             MotionEvent.ACTION_MOVE -> {
                 draggingPoint?.let {
                     it.x = event.x
                     it.y = event.y
+
                     invalidate()
                 }
             }
@@ -132,6 +134,7 @@ class PolygonCanvas @JvmOverloads constructor(
     fun savePointsToPreferences() {
         val prefs = context.getSharedPreferences("PolygonPrefs", Context.MODE_PRIVATE)
         val pointsString = points.joinToString(separator = ";") { "${it.x},${it.y}" }
+
 
         prefs.edit()
             .putString("polygon_points", pointsString)
