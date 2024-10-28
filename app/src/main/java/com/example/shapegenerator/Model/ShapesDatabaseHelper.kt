@@ -1,9 +1,11 @@
 package com.example.shapegenerator.Model
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Point
 
 class ShapesDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -79,5 +81,49 @@ class ShapesDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABAS
         }
         cursor.close()
         return shapeNames
+    }
+    @SuppressLint("Range")
+    fun getShapeIdByName(shapeName: String): Int? {
+        var shapeId: Int? = null
+        val db = this.readableDatabase
+        val cursor = db.query(
+            TABLE_SHAPE,
+            arrayOf(COLUMN_SHAPE_ID),
+            "$COLUMN_NAME = ?",
+            arrayOf(shapeName),
+            null,
+            null,
+            null
+        )
+
+        if (cursor != null && cursor.moveToFirst()) {
+            shapeId = cursor.getInt(cursor.getColumnIndex(COLUMN_SHAPE_ID))
+        }
+        cursor?.close()
+        return shapeId
+    }
+    @SuppressLint("Range")
+    fun getPointsByShapeId(shapeId: Int): List<Points> {
+        val pointsList = mutableListOf<Points>()
+        val db = this.readableDatabase
+        val cursor = db.query(
+            TABLE_POINTS,
+            arrayOf(COLUMN_X, COLUMN_Y),
+            "$COLUMN_SHAPE_ID = ?",
+            arrayOf(shapeId.toString()),
+            null,
+            null,
+            null
+        )
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                val x = cursor.getDouble(cursor.getColumnIndex(COLUMN_X))
+                val y = cursor.getDouble(cursor.getColumnIndex(COLUMN_Y))
+                pointsList.add(Points(x.toDouble(), y.toDouble())) // Crea el objeto Points
+            }
+            cursor.close()
+        }
+        return pointsList
     }
 }

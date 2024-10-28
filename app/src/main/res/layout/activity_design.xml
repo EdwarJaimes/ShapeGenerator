@@ -30,7 +30,7 @@
         android:text="Crear un poligono personalizado:" />
 
     <Button
-        android:id="@+id/btnDesign"
+        android:id="@+id/btnDesignPolygon"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="10dp"
         android:backgroundTint="@color/material_dynamic_primary60"

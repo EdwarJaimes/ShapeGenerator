@@ -9,7 +9,6 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.example.shapegenerator.CanvaActivity
-import com.example.shapegenerator.MainActivity
 import com.example.shapegenerator.R
 
 class SelectionDialogFragment : DialogFragment() {
@@ -55,6 +54,7 @@ class SelectionDialogFragment : DialogFragment() {
             .setView(dialogView)
             .setPositiveButton("Continuar") { dialog, _ ->
                 val intent = Intent(requireContext(), CanvaActivity::class.java)
+                intent.putExtra("id", 1)
                 intent.putExtra("seekBarValue1", scale)
                 intent.putExtra("seekBarValue2", sides)
                 startActivity(intent)
@@ -69,8 +69,6 @@ class SelectionDialogFragment : DialogFragment() {
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(false)
-        //dialog?.window?.setBackgroundDrawableResource(android.R.color.background_dark)
-        //dialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         return dialog
     }
 

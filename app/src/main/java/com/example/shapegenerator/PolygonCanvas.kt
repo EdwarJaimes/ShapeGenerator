@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
+import com.example.shapegenerator.Model.Points
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -31,7 +32,29 @@ class PolygonCanvas @JvmOverloads constructor(
     private var draggingPoint: PointF? = null
     private val touchRadius = 50f
 
-   fun setPolygonSides(sides: Int, radius: Float) {
+    fun setDatabasePoints(dbPoints: List<Points>) {
+        points.clear()
+
+        // Asegura que el ancho y el alto de la vista están definidos antes de escalar
+        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val canvasWidth = width.toFloat()
+                val canvasHeight = height.toFloat()
+
+                dbPoints.forEach { dbPoint ->
+                    val x = dbPoint.x * canvasWidth   // Escalar x de [0, 1] a [0, canvasWidth]
+                    val y = dbPoint.y * canvasHeight  // Escalar y de [0, 1] a [0, canvasHeight]
+                    points.add(PointF(x.toFloat(), y.toFloat()))
+                }
+
+                invalidate()  // Redibuja el canvas
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+
+
+    fun setPolygonSides(sides: Int, radius: Float) {
         if (sides < 3) return //al menos sea un triángulo
 
         points.clear()

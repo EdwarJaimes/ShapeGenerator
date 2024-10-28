@@ -1,5 +1,6 @@
 package com.example.shapegenerator
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.Toast
@@ -10,6 +11,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recycler.PolygonCanvas
+import com.example.shapegenerator.Model.Points
 import com.example.shapegenerator.Model.ShapesDatabaseHelper
 import com.example.shapegenerator.Repository.RetrofitInstance
 import com.example.shapegenerator.Repository.ShapeRepository
@@ -40,7 +43,7 @@ class DesignActivity : AppCompatActivity(), ShapeAdapter.OnShapeClickListener {
         binding = ActivityDesignBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnDesign.setOnClickListener {
+        binding.btnDesignPolygon.setOnClickListener {
             SelectionDialogFragment.newInstance().show(supportFragmentManager, "selectionDialog")
         }
 
@@ -84,6 +87,15 @@ class DesignActivity : AppCompatActivity(), ShapeAdapter.OnShapeClickListener {
     }
 
     override fun onShapeClick(shape: String) {
-        //SelectionDialogFragment.newInstance().show(supportFragmentManager, "selectionDialog")
+
+        // Obtén el ID de la forma
+        val dbHelper = ShapesDatabaseHelper(this)
+        val shapeId = dbHelper.getShapeIdByName(shape)
+
+        var Id: String = shapeId.toString()
+
+        intent = Intent(this, CanvaActivity::class.java)
+        intent.putExtra("shapeId", Id)
+        startActivity(intent)
     }
 }

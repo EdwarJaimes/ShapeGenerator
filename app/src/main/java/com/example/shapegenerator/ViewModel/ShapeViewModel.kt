@@ -7,7 +7,7 @@ import com.example.shapegenerator.Repository.ShapeRepository
 import com.example.shapegenerator.View.ShapeAdapter
 import kotlinx.coroutines.Dispatchers
 
-class ShapeViewModel(private val repository: ShapeRepository): ViewModel(), ShapeAdapter.OnShapeClickListener {
+class ShapeViewModel(private val repository: ShapeRepository): ViewModel(){
     val shapes = liveData(Dispatchers.IO) {
         try {
             val shapeList = repository.fetchShapes()
@@ -16,7 +16,5 @@ class ShapeViewModel(private val repository: ShapeRepository): ViewModel(), Shap
             emit(emptyList<Shape>())
         }
     }
-    override fun onShapeClick(shape: String) {
-        //SelectionDialogFragment.newInstance().show(supportFragmentManager, "selectionDialog")
-    }
+
 }
