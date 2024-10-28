@@ -3,14 +3,12 @@ package com.example.shapegenerator.View
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shapegenerator.Model.Shape
 import com.example.shapegenerator.R
 
-class ShapeAdapter(private val shapes: List<Shape>) : RecyclerView.Adapter<ShapeAdapter.ShapeViewHolder>() {
+class ShapeAdapter(private val shapes: Array<String>, private val listener: OnShapeClickListener) : RecyclerView.Adapter<ShapeAdapter.ShapeViewHolder>() {
 
     inner class ShapeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val button: Button = view.findViewById(R.id.itemButton)
@@ -24,12 +22,18 @@ class ShapeAdapter(private val shapes: List<Shape>) : RecyclerView.Adapter<Shape
     override fun onBindViewHolder(holder: ShapeViewHolder, position: Int) {
         // aca puedo llamar a dibujar cuando toque el boton
         val shape = shapes[position]
-        holder.button.text = shape.name
+        holder.button.text = shape
 
         holder.button.setOnClickListener {
+            listener.onShapeClick(shape)
 
-            Toast.makeText(holder.itemView.context, "Clicked: ${shape.name}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(holder.itemView.context, "Clicked: ${shape}", Toast.LENGTH_SHORT).show()
         }
     }
     override fun getItemCount(): Int = shapes.size
+
+    interface OnShapeClickListener {
+        fun onShapeClick(shape: String)
+    }
+
 }

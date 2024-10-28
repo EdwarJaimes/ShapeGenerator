@@ -1,16 +1,17 @@
 package com.example.shapegenerator
 
-import android.content.Intent
-import android.graphics.PointF
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.recycler.PolygonCanvas
+import com.example.shapegenerator.databinding.ActivityCanvaBinding
 
 class CanvaActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityCanvaBinding
+    lateinit var polygonCanvas: PolygonCanvas
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,6 +20,18 @@ class CanvaActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+
+        polygonCanvas = findViewById<PolygonCanvas>(R.id.polygonCanvas)
+
+        binding = ActivityCanvaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnSaveShape.setOnClickListener{
+            polygonCanvas.savePointsToPreferences()
+        }
+        binding.btnLoadShape.setOnClickListener{
         }
 
         val polygonCanvas = findViewById<PolygonCanvas>(R.id.polygonCanvas)

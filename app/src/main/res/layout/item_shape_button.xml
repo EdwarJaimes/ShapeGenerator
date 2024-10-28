@@ -8,5 +8,6 @@
         android:id="@+id/itemButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/material_dynamic_primary40"
         android:text="Person Name" />
 </LinearLayout>

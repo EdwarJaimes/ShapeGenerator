@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
@@ -23,6 +24,7 @@ class SelectionDialogFragment : DialogFragment() {
         // Configuración del primer SeekBar
         val seekBar1 = dialogView.findViewById<SeekBar>(R.id.seek_bar_1)
         val seekBarValue1 = dialogView.findViewById<TextView>(R.id.seekbar_value_1)
+        seekBar1.setProgress(5)
 
         seekBar1.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -37,6 +39,7 @@ class SelectionDialogFragment : DialogFragment() {
         // Configuración del segundo SeekBar
         val seekBar2 = dialogView.findViewById<SeekBar>(R.id.seek_bar_2)
         val seekBarValue2 = dialogView.findViewById<TextView>(R.id.seekbar_value_2)
+        seekBar2.setProgress(250)
 
         seekBar2.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -57,10 +60,17 @@ class SelectionDialogFragment : DialogFragment() {
                 startActivity(intent)
                 dialog.dismiss() // Opcional: Cierra el diálogo después de la acción
             }
+            .setNegativeButton("Cancelar") { dialog, _ ->
+                dialog.dismiss()
+            }
             .setCancelable(false)
-
+        // Configura el fondo transparente y el efecto de atenuación
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(false)
+        //dialog?.window?.setBackgroundDrawableResource(android.R.color.background_dark)
+        //dialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         return dialog
     }
 

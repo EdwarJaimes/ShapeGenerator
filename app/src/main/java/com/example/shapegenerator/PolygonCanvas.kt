@@ -4,15 +4,13 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Path
 import android.graphics.PointF
 import android.util.AttributeSet
-import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.Toast
 import kotlin.math.cos
-import kotlin.math.min
 import kotlin.math.sin
 
 class PolygonCanvas @JvmOverloads constructor(
@@ -21,7 +19,7 @@ class PolygonCanvas @JvmOverloads constructor(
 
     private val points = mutableListOf<PointF>()
     private val pointPaint = Paint().apply {
-        color = Color.BLACK
+        color = Color.RED
         style = Paint.Style.FILL
     }
     private val linePaint = Paint().apply {
@@ -33,13 +31,12 @@ class PolygonCanvas @JvmOverloads constructor(
     private var draggingPoint: PointF? = null
     private val touchRadius = 50f
 
-    // Método para configurar los puntos desde canvaActivity
    fun setPolygonSides(sides: Int, radius: Float) {
-        if (sides < 3) return // Asegura que al menos sea un triángulo
+        if (sides < 3) return //al menos sea un triángulo
 
         points.clear()
 
-        // Aseguramos que el ancho y alto de la vista están definidos
+//aseguramos que el ancho y alto de la vista están definidos
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 // Calculamos el centro del canvas
@@ -56,36 +53,9 @@ class PolygonCanvas @JvmOverloads constructor(
 
                 invalidate()  // Redibuja el canvas
 
-                // Removemos el listener para evitar múltiples llamadas
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
-    }
-
-    /*private fun centerPolygon() {
-        if (points.isEmpty()) return
-
-        // 1. Calcular el centro del polígono
-        val polygonCenter = calculatePolygonCenter()
-
-        // 2. Calcular el centro del lienzo
-        val canvasCenter = PointF(width / 2f, height / 2f)
-
-        // 3. Desplazamiento necesario para centrar el polígono
-        val offsetX = canvasCenter.x - polygonCenter.x
-        val offsetY = canvasCenter.y - polygonCenter.y
-
-        // 4. Trasladar todos los puntos
-        points.forEach { point ->
-            point.x += offsetX
-            point.y += offsetY
-        }
-    }*/
-
-    private fun calculatePolygonCenter(): PointF {
-        val centerX = points.map { it.x }.average().toFloat()
-        val centerY = points.map { it.y }.average().toFloat()
-        return PointF(centerX, centerY)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -136,4 +106,15 @@ class PolygonCanvas @JvmOverloads constructor(
         val dy = y - point.y
         return dx * dx + dy * dy <= touchRadius * touchRadius
     }
+    fun savePointsToPreferences() {
+        val prefs = context.getSharedPreferences("PolygonPrefs", Context.MODE_PRIVATE)
+        val pointsString = points.joinToString(separator = ";") { "${it.x},${it.y}" }
+
+        prefs.edit()
+            .putString("polygon_points", pointsString)
+            .apply()
+
+        Toast.makeText(context, "Puntos guardados en preferencias", Toast.LENGTH_SHORT).show()
+    }
+
 }

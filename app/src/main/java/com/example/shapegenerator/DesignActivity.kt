@@ -1,6 +1,8 @@
 package com.example.shapegenerator
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +19,7 @@ import com.example.shapegenerator.ViewModel.ShapeViewModel
 import com.example.shapegenerator.ViewModel.ShapeViewModelFactory
 import com.example.shapegenerator.databinding.ActivityDesignBinding
 
-class DesignActivity : AppCompatActivity() {
+class DesignActivity : AppCompatActivity(), ShapeAdapter.OnShapeClickListener {
 
     private lateinit var shapeAdapter: ShapeAdapter
     private  lateinit var binding: ActivityDesignBinding
@@ -48,21 +50,40 @@ class DesignActivity : AppCompatActivity() {
         val dbHelper = ShapesDatabaseHelper(this)
         val shapeNamesArray = dbHelper.getShapeNames().toTypedArray()
 
-//si esta vacio o la app borra los datos, se hace la consulta a la api
-        if (shapeNamesArray.isEmpty()) {
-            // Observa los datos en el ViewModel
+        if (isInternetAvailable()) {
+            // Si hay conexión a internet, carga desde la API
             shapeViewModel.shapes.observe(this) { shapes ->
-                for (shape in shapes) {
-                    dbHelper.insertShape(shape)
-                    println("Guardado en la base de datos: $shape")
+                shapes?.let {
+                    // Guardar cada forma en la base de datos
+                    for (shape in shapes) {
+                        dbHelper.insertShape(shape)
+                    }
+                    Toast.makeText(this, "datos recuperados y guardados bd", Toast.LENGTH_SHORT).show()
+
+                    // Actualiza el RecyclerView con los nuevos datos
+                    shapeAdapter = ShapeAdapter(shapes.map { it.name }.toTypedArray(), this)
+                    recyclerView.adapter = shapeAdapter
                 }
             }
-//si no esta vacio, se muestran los datos de la base de datos
+        } else if (shapeNamesArray.isNotEmpty()) {
+            // Si no hay conexión y hay datos en la base de datos, usa esos datos
+            shapeAdapter = ShapeAdapter(shapeNamesArray, this)
+            recyclerView.adapter = shapeAdapter
+            Toast.makeText(this, "sin conexión, datos cargados desde bd", Toast.LENGTH_SHORT).show()
         } else {
-            shapeViewModel.shapes.observe(this) { shapes ->
-                shapeAdapter = ShapeAdapter(shapes)
-                recyclerView.adapter = shapeAdapter
-            }
+            // Si no hay conexión y tampoco hay datos en la base de datos, muestra un mensaje
+            Toast.makeText(this, "No hay conexión a internet y no hay datos locales disponibles", Toast.LENGTH_SHORT).show()
         }
+
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
+    }
+
+    override fun onShapeClick(shape: String) {
+        //SelectionDialogFragment.newInstance().show(supportFragmentManager, "selectionDialog")
     }
 }

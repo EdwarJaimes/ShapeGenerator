@@ -1,6 +1,5 @@
 package com.example.shapegenerator
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -9,7 +8,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shapegenerator.Repository.RetrofitInstance
 import com.example.shapegenerator.Repository.ShapeRepository
-import com.example.shapegenerator.View.SelectionDialogFragment
 import com.example.shapegenerator.ViewModel.ShapeViewModel
 import com.example.shapegenerator.ViewModel.ShapeViewModelFactory
 import com.example.shapegenerator.databinding.ActivityMainBinding
@@ -33,14 +31,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.btnSelection.setOnClickListener {
-            val newIntent = Intent(this, DesignActivity::class.java)
-            startActivity(newIntent)
-        }
-        binding.btnDesign.setOnClickListener {
-            SelectionDialogFragment.newInstance().show(supportFragmentManager, "selectionDialog")
-        }
 
     }
 }
