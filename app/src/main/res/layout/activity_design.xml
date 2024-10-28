@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Design">
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textStyle="bold"
+        android:textColor="#2C7798"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:text="Selecciona un poligono prediseñado:" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:textColor="#2C7798"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:text="Crear un poligono personalizado:" />
+
+    <Button
+        android:id="@+id/btnDesignPolygon"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:backgroundTint="@color/material_dynamic_primary60"
+        android:layout_height="wrap_content"
+        android:text="Diseñar poligono" />
+</LinearLayout>

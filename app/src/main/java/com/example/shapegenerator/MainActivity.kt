@@ -10,9 +10,11 @@ import com.example.shapegenerator.Repository.RetrofitInstance
 import com.example.shapegenerator.Repository.ShapeRepository
 import com.example.shapegenerator.ViewModel.ShapeViewModel
 import com.example.shapegenerator.ViewModel.ShapeViewModelFactory
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.shapegenerator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     private val shapeViewModel: ShapeViewModel by viewModels {
         ShapeViewModelFactory(ShapeRepository(RetrofitInstance.api))
@@ -27,14 +29,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        shapeViewModel.shapes.observe(this) { shapes ->
-            // Aquí puedes actualizar la UI con la lista de figuras.
-            // Por ejemplo, mostrarlas en un RecyclerView.
-            for (shape in shapes) {
-                println(shape)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-
-            }
-        }
     }
 }
